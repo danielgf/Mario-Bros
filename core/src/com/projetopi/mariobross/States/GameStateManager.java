@@ -10,30 +10,31 @@ import java.util.Stack;
  */
 public class GameStateManager extends MarioBros {
 
-    private Stack<State> stateStack;
+    private Stack<State> states;
 
-    public GameStateManager() {
-        stateStack = new Stack<State>();
+    public GameStateManager(){
+        states = new Stack<State>();
     }
 
-    public void push(State states){
-        stateStack.push(states);
+    public void push(State state){
+        states.push(state);
     }
 
     public void pop(){
-        stateStack.pop();
+        states.pop();
     }
 
-    public void set(State states){
-        stateStack.pop();
-        stateStack.push(states);
+    public void set(State state){
+        states.pop();
+        states.push(state);
     }
 
     public void update(float dt){
-        stateStack.peek().update(dt);
+        states.peek().update(dt);
     }
 
     public void render(SpriteBatch spriteBatch){
-        stateStack.peek().render(spriteBatch);
+        states.peek().render(spriteBatch);
     }
+
 }

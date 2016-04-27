@@ -9,19 +9,19 @@ import com.badlogic.gdx.math.Vector3;
  */
 public abstract class State {
 
-    public OrthographicCamera camera;
-    public Vector3 vector3;
-    public GameStateManager gameStateManager;
+    protected OrthographicCamera orthographicCamera;
+    protected Vector3 vector3;
+    protected GameStateManager gameStateManager;
 
-    public State(GameStateManager gameStateManager){
-        this.gameStateManager = gameStateManager;
-        camera = new OrthographicCamera();
+    public State(GameStateManager gSM) {
+        this.gameStateManager = gSM;
+
+        orthographicCamera = new OrthographicCamera();
         vector3 = new Vector3();
     }
 
-    public abstract void handleInput();
-    protected abstract void update(float dt);
+    protected abstract void handleInput();
+    public abstract void update(float dt);
     public abstract void render(SpriteBatch spriteBatch);
     public abstract void dispose();
-
 }

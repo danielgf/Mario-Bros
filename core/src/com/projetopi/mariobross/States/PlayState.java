@@ -8,17 +8,20 @@ import com.projetopi.mariobross.Screens.PlayScreen;
  */
 public class PlayState extends State {
 
-    public PlayState(GameStateManager gameStateManager) {
-        super(gameStateManager);
+    private PlayScreen playScreen;
+
+    public PlayState(GameStateManager gSM) {
+        super(gSM);
+        //Problema esta aqui, quando chama a classe do jogo
     }
 
     @Override
-    public void handleInput() {
+    protected void handleInput() {
 
     }
 
     @Override
-    protected void update(float dt) {
+    public void update(float dt) {
 
     }
 
