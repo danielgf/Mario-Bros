@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -32,7 +30,7 @@ public class PlayScreen implements Screen {
     private TextureAtlas textureAtlas;
 
     //Basic play screen variables
-    private OrthographicCamera gamecam;
+    public OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
 
@@ -55,11 +53,11 @@ public class PlayScreen implements Screen {
         this.game = game;
 
         //create camera used to follow mario through camera world
-        gamecam = new OrthographicCamera();
+        gameCam = new OrthographicCamera();
 
         //create a FitViewport to maintain virtual aspect ratio despite screen size
         gamePort = new FitViewport(MarioBros.virtualWidth/ MarioBros.pixelPerMeter,
-                                    MarioBros.virtualHeight / MarioBros.pixelPerMeter, gamecam);
+                                    MarioBros.virtualHeight / MarioBros.pixelPerMeter, gameCam);
 
         //create our game HUD for scores/timers/level info
         hud = new Hud(game.batch);
@@ -70,7 +68,7 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / MarioBros.pixelPerMeter);
 
         //initially set our game camera to be centered correctly at the start of map
-        gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+        gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         //create our Box2D world, setting no gravity in X, -10 gravity in Y, and allow bodies to sleep
         world = new World(new Vector2(0,-10), true);
@@ -113,15 +111,16 @@ public class PlayScreen implements Screen {
         world.step(1/60f, 6, 2);
 
         marioPlayer.update(dt);
+        hud.update(dt);
 
         //attack our game cam to our marioPlayer.x coordinates
-        gamecam.position.x = marioPlayer.body.getPosition().x;
+        gameCam.position.x = marioPlayer.body.getPosition().x;
 
         //update our game camera with correct coordinates after changes
-        gamecam.update();
+        gameCam.update();
 
         //tell our renderer to draw only what our camera can see in our game world.
-        renderer.setView(gamecam);
+        renderer.setView(gameCam);
 
     }
 
@@ -138,13 +137,13 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         //renderer our Box2DDebugLines
-        box2DDebugRenderer.render(world, gamecam.combined);
+        box2DDebugRenderer.render(world, gameCam.combined);
 
-        game.batch.setProjectionMatrix(gamecam.combined);
+        game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         marioPlayer.draw(game.batch);
         game.batch.end();
-        gamecam.update();
+        gameCam.update();
 
         //Set our batch to now draw what the Hud camera sees.
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
