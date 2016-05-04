@@ -12,6 +12,8 @@ import com.projetopi.mariobross.Sprites.InteractiveTileObject;
  * Created by Daniel on 4/8/16.
  */
 public class WorldContactListener implements ContactListener {
+
+
     @Override
     public void beginContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
